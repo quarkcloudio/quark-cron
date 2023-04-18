@@ -13,6 +13,15 @@ type Job struct {
 	Id         int            `json:"id" gorm:"autoIncrement"`
 	Name       string         `json:"name" gorm:"size:200;not null"`
 	ScheduleId int            `json:"schedule_id" gorm:"size:11;not null;default:0"`
+	Type       int            `json:"type" gorm:"size:4;not null;default:1"`
+	CycleType  int            `json:"cycle_type" gorm:"size:4;not null;default:1"`
+	Week       int            `json:"week" gorm:"size:11;not null;default:1"`
+	Day        int            `json:"day" gorm:"size:11;not null;default:3"`
+	Hour       int            `json:"hour" gorm:"size:11;not null;default:1"`
+	Minute     int            `json:"minute" gorm:"size:11;not null;default:30"`
+	Shell      string         `json:"shell" gorm:"size:5000;null"`
+	Url        string         `json:"url" gorm:"size:1000;null"`
+	Path       string         `json:"path" gorm:"size:1000;null"`
 	Status     int            `json:"status" gorm:"size:4;not null;default:1"`
 	CreatedAt  time.Time      `json:"created_at"`
 	UpdatedAt  time.Time      `json:"updated_at"`
