@@ -17,12 +17,12 @@ func DBMigrate() {
 
 	// 迁移数据
 	db.Client.AutoMigrate(
-		&model.Schedule{},
+		&model.Scheduler{},
 		&model.Job{},
 	)
 
 	// 数据填充
-	(&model.Schedule{}).Seeder()
+	(&model.Scheduler{}).Seeder()
 	(&model.Job{}).Seeder()
 }
 
@@ -30,7 +30,7 @@ func main() {
 
 	// 注册服务
 	providers := []interface{}{
-		&resource.Schedule{},
+		&resource.Scheduler{},
 		&resource.Job{},
 	}
 
@@ -52,6 +52,9 @@ func main() {
 
 	// 实例化对象
 	b := builder.New(config)
+
+	// 加载定时任务服务
+	(&model.Scheduler{}).LoadServices()
 
 	// 静态文件
 	b.Static("/", "./website")

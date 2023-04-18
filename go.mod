@@ -1,6 +1,6 @@
 module github.com/quarkcms/quark-cron
 
-go 1.18
+go 1.19
 
 require (
 	github.com/quarkcms/quark-go v1.2.18
@@ -8,7 +8,11 @@ require (
 	gorm.io/gorm v1.25.0
 )
 
-require github.com/xbmlz/gct v0.0.0-20220707064702-998631a80a6a // indirect
+require (
+	github.com/robfig/cron/v3 v3.0.1 // indirect
+	github.com/xbmlz/gct v0.0.0-20220707064702-998631a80a6a // indirect
+	golang.org/x/sync v0.1.0 // indirect
+)
 
 require (
 	github.com/aliyun/aliyun-oss-go-sdk v2.2.7+incompatible // indirect
@@ -17,6 +21,7 @@ require (
 	github.com/derekstavis/go-qs v0.0.0-20180720192143-9eef69e6c4e7 // indirect
 	github.com/dgryski/go-rendezvous v0.0.0-20200823014737-9f7001d12a5f // indirect
 	github.com/go-basic/uuid v1.0.0 // indirect
+	github.com/go-co-op/gocron v1.22.2
 	github.com/go-ole/go-ole v1.2.6 // indirect
 	github.com/go-redis/redis/v8 v8.11.5 // indirect
 	github.com/gobeam/stringy v0.0.6 // indirect

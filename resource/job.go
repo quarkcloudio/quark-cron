@@ -1,6 +1,8 @@
 package resource
 
 import (
+	"strings"
+
 	"github.com/quarkcms/quark-cron/action"
 	"github.com/quarkcms/quark-cron/model"
 	"github.com/quarkcms/quark-go/pkg/app/handler/admin/actions"
@@ -9,6 +11,7 @@ import (
 	"github.com/quarkcms/quark-go/pkg/builder/template/adminresource"
 	"github.com/quarkcms/quark-go/pkg/component/admin/form/fields/selectfield"
 	"github.com/quarkcms/quark-go/pkg/component/admin/form/rule"
+	"gorm.io/gorm"
 )
 
 type Job struct {
@@ -35,7 +38,7 @@ func (p *Job) Init() interface{} {
 
 func (p *Job) Fields(ctx *builder.Context) []interface{} {
 	field := &adminresource.Field{}
-	options := (&model.Schedule{}).Options()
+	options := (&model.Scheduler{}).Options()
 
 	return []interface{}{
 		field.ID("id", "ID"),
@@ -331,4 +334,16 @@ func (p *Job) Actions(ctx *builder.Context) []interface{} {
 		(&action.EditModal{}).Init("编辑"),
 		(&actions.Delete{}).Init("删除"),
 	}
+}
+
+// 数据保存后回调
+func (p *Job) AfterSaved(ctx *builder.Context, id int, data map[string]interface{}, result *gorm.DB) interface{} {
+	if result.Error != nil {
+		return ctx.SimpleError(result.Error.Error())
+	}
+
+	// 重载服务
+	(&model.Scheduler{}).ReloadServices()
+
+	return ctx.SimpleSuccess("操作成功！", strings.Replace("/index?api="+adminresource.IndexRoute, ":resource", ctx.Param("resource"), -1))
 }

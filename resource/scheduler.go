@@ -9,12 +9,12 @@ import (
 	"github.com/quarkcms/quark-go/pkg/component/admin/form/rule"
 )
 
-type Schedule struct {
+type Scheduler struct {
 	adminresource.Template
 }
 
 // 初始化
-func (p *Schedule) Init() interface{} {
+func (p *Scheduler) Init() interface{} {
 
 	// 初始化模板
 	p.TemplateInit()
@@ -23,7 +23,7 @@ func (p *Schedule) Init() interface{} {
 	p.Title = "调度器"
 
 	// 模型
-	p.Model = &model.Schedule{}
+	p.Model = &model.Scheduler{}
 
 	// 分页
 	p.PerPage = 10
@@ -31,7 +31,7 @@ func (p *Schedule) Init() interface{} {
 	return p
 }
 
-func (p *Schedule) Fields(ctx *builder.Context) []interface{} {
+func (p *Scheduler) Fields(ctx *builder.Context) []interface{} {
 	field := &adminresource.Field{}
 
 	return []interface{}{
@@ -51,7 +51,7 @@ func (p *Schedule) Fields(ctx *builder.Context) []interface{} {
 }
 
 // 搜索
-func (p *Schedule) Searches(ctx *builder.Context) []interface{} {
+func (p *Scheduler) Searches(ctx *builder.Context) []interface{} {
 
 	return []interface{}{
 		(&searches.Input{}).Init("name", "名称"),
@@ -60,7 +60,7 @@ func (p *Schedule) Searches(ctx *builder.Context) []interface{} {
 }
 
 // 行为
-func (p *Schedule) Actions(ctx *builder.Context) []interface{} {
+func (p *Scheduler) Actions(ctx *builder.Context) []interface{} {
 
 	return []interface{}{
 		(&actions.Delete{}).Init("批量删除"),
