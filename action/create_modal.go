@@ -32,7 +32,7 @@ func (p *CreateModal) Init(name string) *CreateModal {
 	p.Reload = "table"
 
 	// 设置窗体宽度
-	p.Width = 680
+	p.Width = 800
 
 	// 设置展示位置
 	p.SetOnlyOnIndex(true)

@@ -22,6 +22,7 @@ type Job struct {
 	Day        int            `json:"day" gorm:"size:11;not null;default:3"`
 	Hour       int            `json:"hour" gorm:"size:11;not null;default:1"`
 	Minute     int            `json:"minute" gorm:"size:11;not null;default:30"`
+	Second     int            `json:"second" gorm:"size:11;not null;default:30"`
 	Shell      string         `json:"shell" gorm:"size:5000;null"`
 	Url        string         `json:"url" gorm:"size:1000;null"`
 	Path       string         `json:"path" gorm:"size:1000;null"`
@@ -60,117 +61,145 @@ func (m *Job) LoadServices(schedulerId int, scheduler *gocron.Scheduler) (err er
 	for _, v := range jobs {
 		switch v.CycleType {
 		case 1:
-			// 每一天几点几分，例如：每一天12点30分执行
+			// 限定每天的几点几分几秒执行一次
 			job, err = scheduler.
 				Every(1).
 				Day().
-				At(strconv.Itoa(v.Hour) + ":" + strconv.Itoa(v.Minute)).
+				At(strconv.Itoa(v.Hour) + ":" + strconv.Itoa(v.Minute) + ":" + strconv.Itoa(v.Second)).
 				Do(func() {
-					fmt.Println(strconv.Itoa(v.Hour) + "点" + strconv.Itoa(v.Minute) + "分执行")
+					fmt.Println("执行周期：" + strconv.Itoa(v.Hour) + "点" + strconv.Itoa(v.Minute) + "分" + strconv.Itoa(v.Second))
 				})
 		case 2:
-			// 每隔几天几点几分，例如：每隔3天12点30分执行
+			// 每隔几天几小时几分几秒执行一次
 			job, err = scheduler.
-				Every(v.Day).
-				Day().
-				At(strconv.Itoa(v.Hour) + ":" + strconv.Itoa(v.Minute)).
+				Every((v.Day * 24 * 60 * 60) + (v.Hour * 60 * 60) + (v.Minute * 60) + v.Second).
+				Seconds().
 				Do(func() {
-					fmt.Println(strconv.Itoa(v.Hour) + "点" + strconv.Itoa(v.Minute) + "分执行")
+					fmt.Println("执行周期：" + strconv.Itoa(v.Hour) + "点" + strconv.Itoa(v.Minute) + "分" + strconv.Itoa(v.Second))
 				})
 		case 3:
-			// 每小时几分，例如：每小时30分执行
+			// 限定每小时的几分几秒执行一次
 			job, err = scheduler.
 				Every(1).
-				Hour().
-				At(strconv.Itoa(v.Minute)).
+				Day().
+				At("01:" + strconv.Itoa(v.Minute) + ":" + strconv.Itoa(v.Second)).
+				At("02:" + strconv.Itoa(v.Minute) + ":" + strconv.Itoa(v.Second)).
+				At("03:" + strconv.Itoa(v.Minute) + ":" + strconv.Itoa(v.Second)).
+				At("04:" + strconv.Itoa(v.Minute) + ":" + strconv.Itoa(v.Second)).
+				At("05:" + strconv.Itoa(v.Minute) + ":" + strconv.Itoa(v.Second)).
+				At("06:" + strconv.Itoa(v.Minute) + ":" + strconv.Itoa(v.Second)).
+				At("07:" + strconv.Itoa(v.Minute) + ":" + strconv.Itoa(v.Second)).
+				At("08:" + strconv.Itoa(v.Minute) + ":" + strconv.Itoa(v.Second)).
+				At("09:" + strconv.Itoa(v.Minute) + ":" + strconv.Itoa(v.Second)).
+				At("10:" + strconv.Itoa(v.Minute) + ":" + strconv.Itoa(v.Second)).
+				At("11:" + strconv.Itoa(v.Minute) + ":" + strconv.Itoa(v.Second)).
+				At("12:" + strconv.Itoa(v.Minute) + ":" + strconv.Itoa(v.Second)).
+				At("13:" + strconv.Itoa(v.Minute) + ":" + strconv.Itoa(v.Second)).
+				At("14:" + strconv.Itoa(v.Minute) + ":" + strconv.Itoa(v.Second)).
+				At("15:" + strconv.Itoa(v.Minute) + ":" + strconv.Itoa(v.Second)).
+				At("16:" + strconv.Itoa(v.Minute) + ":" + strconv.Itoa(v.Second)).
+				At("17:" + strconv.Itoa(v.Minute) + ":" + strconv.Itoa(v.Second)).
+				At("18:" + strconv.Itoa(v.Minute) + ":" + strconv.Itoa(v.Second)).
+				At("19:" + strconv.Itoa(v.Minute) + ":" + strconv.Itoa(v.Second)).
+				At("20:" + strconv.Itoa(v.Minute) + ":" + strconv.Itoa(v.Second)).
+				At("21:" + strconv.Itoa(v.Minute) + ":" + strconv.Itoa(v.Second)).
+				At("22:" + strconv.Itoa(v.Minute) + ":" + strconv.Itoa(v.Second)).
+				At("23:" + strconv.Itoa(v.Minute) + ":" + strconv.Itoa(v.Second)).
 				Do(func() {
-					fmt.Println(strconv.Itoa(v.Minute) + "分执行")
+					fmt.Println("执行周期：" + strconv.Itoa(v.Minute) + "分" + strconv.Itoa(v.Second))
 				})
 		case 4:
-			// 每隔几小时几分，例如：每3时30分执行
+			// 每隔几小时几分几秒执行一次
 			job, err = scheduler.
-				Every(v.Hour).
-				Hour().
-				At(strconv.Itoa(v.Minute)).
+				Every((v.Hour * 60 * 60) + (v.Minute * 60) + v.Second).
+				Seconds().
 				Do(func() {
-					fmt.Println(strconv.Itoa(v.Hour) + "点" + strconv.Itoa(v.Minute) + "分执行")
+					fmt.Println("执行周期：" + strconv.Itoa(v.Hour) + "点" + strconv.Itoa(v.Minute) + "分" + strconv.Itoa(v.Second))
 				})
 		case 5:
-			// 每隔几分，例如：每30分执行
+			// 每隔几分几秒执行一次
 			job, err = scheduler.
-				Every(v.Minute).
-				Minutes().
+				Every((v.Minute * 60) + v.Second).
+				Seconds().
 				Do(func() {
-					fmt.Println(strconv.Itoa(v.Minute) + "分执行")
+					fmt.Println("执行周期：" + strconv.Itoa(v.Minute) + "分" + strconv.Itoa(v.Second))
 				})
 		case 6:
-			// 每周几小时几分，例如：每周一3时30分执行
+			// 每隔几秒钟执行一次
+			job, err = scheduler.
+				Every(v.Second).
+				Seconds().
+				Do(func() {
+					fmt.Println("执行周期：" + strconv.Itoa(v.Minute) + "分" + strconv.Itoa(v.Second))
+				})
+		case 7:
+			// 每周的几点几分几秒执行一次
 			switch v.Week {
 			case 1:
 				job, err = scheduler.
 					Every(1).
 					Monday().
-					At(strconv.Itoa(v.Hour) + ":" + strconv.Itoa(v.Minute)).
+					At(strconv.Itoa(v.Hour) + ":" + strconv.Itoa(v.Minute) + ":" + strconv.Itoa(v.Second)).
 					Do(func() {
-						fmt.Println("周一" + strconv.Itoa(v.Hour) + "点" + strconv.Itoa(v.Minute) + "分执行")
+						fmt.Println("执行周期：" + "周一" + strconv.Itoa(v.Hour) + "点" + strconv.Itoa(v.Minute) + "分" + strconv.Itoa(v.Second))
 					})
 			case 2:
 				job, err = scheduler.
 					Every(1).
 					Thursday().
-					At(strconv.Itoa(v.Hour) + ":" + strconv.Itoa(v.Minute)).
+					At(strconv.Itoa(v.Hour) + ":" + strconv.Itoa(v.Minute) + ":" + strconv.Itoa(v.Second)).
 					Do(func() {
-						fmt.Println("周二" + strconv.Itoa(v.Hour) + "点" + strconv.Itoa(v.Minute) + "分执行")
+						fmt.Println("执行周期：" + "周二" + strconv.Itoa(v.Hour) + "点" + strconv.Itoa(v.Minute) + "分" + strconv.Itoa(v.Second))
 					})
 			case 3:
 				job, err = scheduler.
 					Every(1).
 					Wednesday().
-					At(strconv.Itoa(v.Hour) + ":" + strconv.Itoa(v.Minute)).
+					At(strconv.Itoa(v.Hour) + ":" + strconv.Itoa(v.Minute) + ":" + strconv.Itoa(v.Second)).
 					Do(func() {
-						fmt.Println("周三" + strconv.Itoa(v.Hour) + "点" + strconv.Itoa(v.Minute) + "分执行")
+						fmt.Println("执行周期：" + "周三" + strconv.Itoa(v.Hour) + "点" + strconv.Itoa(v.Minute) + "分" + strconv.Itoa(v.Second))
 					})
 			case 4:
 				job, err = scheduler.
 					Every(1).
 					Thursday().
-					At(strconv.Itoa(v.Hour) + ":" + strconv.Itoa(v.Minute)).
+					At(strconv.Itoa(v.Hour) + ":" + strconv.Itoa(v.Minute) + ":" + strconv.Itoa(v.Second)).
 					Do(func() {
-						fmt.Println("周四" + strconv.Itoa(v.Hour) + "点" + strconv.Itoa(v.Minute) + "分执行")
+						fmt.Println("执行周期：" + "周四" + strconv.Itoa(v.Hour) + "点" + strconv.Itoa(v.Minute) + "分" + strconv.Itoa(v.Second))
 					})
 			case 5:
 				job, err = scheduler.
 					Every(1).
 					Friday().
-					At(strconv.Itoa(v.Hour) + ":" + strconv.Itoa(v.Minute)).
+					At(strconv.Itoa(v.Hour) + ":" + strconv.Itoa(v.Minute) + ":" + strconv.Itoa(v.Second)).
 					Do(func() {
-						fmt.Println("周五" + strconv.Itoa(v.Hour) + "点" + strconv.Itoa(v.Minute) + "分执行")
+						fmt.Println("执行周期：" + "周五" + strconv.Itoa(v.Hour) + "点" + strconv.Itoa(v.Minute) + "分" + strconv.Itoa(v.Second))
 					})
 			case 6:
 				job, err = scheduler.
 					Every(1).
 					Saturday().
-					At(strconv.Itoa(v.Hour) + ":" + strconv.Itoa(v.Minute)).
+					At(strconv.Itoa(v.Hour) + ":" + strconv.Itoa(v.Minute) + ":" + strconv.Itoa(v.Second)).
 					Do(func() {
-						fmt.Println("周六" + strconv.Itoa(v.Hour) + "点" + strconv.Itoa(v.Minute) + "分执行")
+						fmt.Println("执行周期：" + "周六" + strconv.Itoa(v.Hour) + "点" + strconv.Itoa(v.Minute) + "分" + strconv.Itoa(v.Second))
 					})
 			case 7:
 				job, err = scheduler.
 					Every(1).
 					Sunday().
-					At(strconv.Itoa(v.Hour) + ":" + strconv.Itoa(v.Minute)).
+					At(strconv.Itoa(v.Hour) + ":" + strconv.Itoa(v.Minute) + ":" + strconv.Itoa(v.Second)).
 					Do(func() {
-						fmt.Println("周日" + strconv.Itoa(v.Hour) + "点" + strconv.Itoa(v.Minute) + "分执行")
+						fmt.Println("执行周期：" + "周日" + strconv.Itoa(v.Hour) + "点" + strconv.Itoa(v.Minute) + "分" + strconv.Itoa(v.Second))
 					})
 			}
-		case 7:
-			// 每月几号几点几分，例如：每月12号12点30分执行
+		case 8:
+			// 每月几号几点几分执行一次
 			job, err = scheduler.
 				Every(1).
 				Month(v.Day).
-				At(strconv.Itoa(v.Hour) + ":" + strconv.Itoa(v.Minute)).
+				At(strconv.Itoa(v.Hour) + ":" + strconv.Itoa(v.Minute) + ":" + strconv.Itoa(v.Second)).
 				Do(func() {
-					fmt.Println(strconv.Itoa(v.Day) + "号" + strconv.Itoa(v.Hour) + "点" + strconv.Itoa(v.Minute) + "分执行")
+					fmt.Println("执行周期：" + strconv.Itoa(v.Day) + "号" + strconv.Itoa(v.Hour) + "点" + strconv.Itoa(v.Minute) + "分" + strconv.Itoa(v.Second))
 				})
 		}
 

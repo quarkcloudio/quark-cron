@@ -98,19 +98,23 @@ func (p *Job) Fields(ctx *builder.Context) []interface{} {
 						Value: 5,
 					},
 					{
-						Label: "每星期",
+						Label: "N秒",
 						Value: 6,
 					},
 					{
-						Label: "每月",
+						Label: "每星期",
 						Value: 7,
+					},
+					{
+						Label: "每月",
+						Value: 8,
 					},
 				}).
 				SetWhen(1, func() interface{} {
 					return []interface{}{
 
 						field.Number("hour").
-							SetAddonAfter("小时").
+							SetAddonAfter("点").
 							SetWidth(70).
 							SetMin(0).
 							SetMax(23).
@@ -118,7 +122,15 @@ func (p *Job) Fields(ctx *builder.Context) []interface{} {
 							OnlyOnForms(),
 
 						field.Number("minute").
-							SetAddonAfter("分钟").
+							SetAddonAfter("分").
+							SetWidth(70).
+							SetMin(0).
+							SetMax(59).
+							SetDefault(30).
+							OnlyOnForms(),
+
+						field.Number("second").
+							SetAddonAfter("秒").
 							SetWidth(70).
 							SetMin(0).
 							SetMax(59).
@@ -146,7 +158,15 @@ func (p *Job) Fields(ctx *builder.Context) []interface{} {
 							OnlyOnForms(),
 
 						field.Number("minute").
-							SetAddonAfter("分钟").
+							SetAddonAfter("分").
+							SetWidth(70).
+							SetMin(0).
+							SetMax(59).
+							SetDefault(30).
+							OnlyOnForms(),
+
+						field.Number("second").
+							SetAddonAfter("秒").
 							SetWidth(70).
 							SetMin(0).
 							SetMax(59).
@@ -157,7 +177,15 @@ func (p *Job) Fields(ctx *builder.Context) []interface{} {
 				SetWhen(3, func() interface{} {
 					return []interface{}{
 						field.Number("minute").
-							SetAddonAfter("分钟").
+							SetAddonAfter("分").
+							SetWidth(70).
+							SetMin(0).
+							SetMax(59).
+							SetDefault(30).
+							OnlyOnForms(),
+
+						field.Number("second").
+							SetAddonAfter("秒").
 							SetWidth(70).
 							SetMin(0).
 							SetMax(59).
@@ -177,26 +205,53 @@ func (p *Job) Fields(ctx *builder.Context) []interface{} {
 							OnlyOnForms(),
 
 						field.Number("minute").
-							SetAddonAfter("分钟").
+							SetAddonAfter("分").
 							SetWidth(70).
 							SetMin(0).
 							SetMax(59).
 							SetDefault(59).
+							OnlyOnForms(),
+
+						field.Number("second").
+							SetAddonAfter("秒").
+							SetWidth(70).
+							SetMin(0).
+							SetMax(59).
+							SetDefault(30).
 							OnlyOnForms(),
 					}
 				}).
 				SetWhen(5, func() interface{} {
 					return []interface{}{
 						field.Number("minute").
-							SetAddonAfter("分钟").
+							SetAddonAfter("分").
 							SetWidth(70).
 							SetMin(0).
 							SetMax(59).
 							SetDefault(59).
 							OnlyOnForms(),
+
+						field.Number("second").
+							SetAddonAfter("秒").
+							SetWidth(70).
+							SetMin(0).
+							SetMax(59).
+							SetDefault(30).
+							OnlyOnForms(),
 					}
 				}).
 				SetWhen(6, func() interface{} {
+					return []interface{}{
+						field.Number("second").
+							SetAddonAfter("秒").
+							SetWidth(70).
+							SetMin(0).
+							SetMax(59).
+							SetDefault(30).
+							OnlyOnForms(),
+					}
+				}).
+				SetWhen(7, func() interface{} {
 					return []interface{}{
 						field.Select("week").
 							SetOptions([]*selectfield.Option{
@@ -234,7 +289,7 @@ func (p *Job) Fields(ctx *builder.Context) []interface{} {
 							OnlyOnForms(),
 
 						field.Number("hour").
-							SetAddonAfter("小时").
+							SetAddonAfter("点").
 							SetWidth(70).
 							SetMin(0).
 							SetMax(23).
@@ -242,15 +297,23 @@ func (p *Job) Fields(ctx *builder.Context) []interface{} {
 							OnlyOnForms(),
 
 						field.Number("minute").
-							SetAddonAfter("分钟").
+							SetAddonAfter("分").
 							SetWidth(70).
 							SetMin(0).
 							SetMax(59).
 							SetDefault(59).
 							OnlyOnForms(),
+
+						field.Number("second").
+							SetAddonAfter("秒").
+							SetWidth(70).
+							SetMin(0).
+							SetMax(59).
+							SetDefault(30).
+							OnlyOnForms(),
 					}
 				}).
-				SetWhen(7, func() interface{} {
+				SetWhen(8, func() interface{} {
 					return []interface{}{
 
 						field.Number("day").
@@ -262,7 +325,7 @@ func (p *Job) Fields(ctx *builder.Context) []interface{} {
 							OnlyOnForms(),
 
 						field.Number("hour").
-							SetAddonAfter("小时").
+							SetAddonAfter("点").
 							SetWidth(70).
 							SetMin(0).
 							SetMax(23).
@@ -270,11 +333,19 @@ func (p *Job) Fields(ctx *builder.Context) []interface{} {
 							OnlyOnForms(),
 
 						field.Number("minute").
-							SetAddonAfter("分钟").
+							SetAddonAfter("分").
 							SetWidth(70).
 							SetMin(0).
 							SetMax(59).
 							SetDefault(59).
+							OnlyOnForms(),
+
+						field.Number("second").
+							SetAddonAfter("秒").
+							SetWidth(70).
+							SetMin(0).
+							SetMax(59).
+							SetDefault(30).
 							OnlyOnForms(),
 					}
 				}).

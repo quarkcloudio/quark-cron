@@ -32,7 +32,7 @@ func (p *EditModal) Init(name string) *EditModal {
 	p.Reload = "table"
 
 	// 设置窗体宽度
-	p.Width = 680
+	p.Width = 800
 
 	// 设置展示位置
 	p.SetOnlyOnIndexTableRow(true)
