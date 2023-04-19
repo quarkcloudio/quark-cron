@@ -21,7 +21,7 @@ func (p *JobLogStatus) Init() *JobLogStatus {
 
 // 执行查询
 func (p *JobLogStatus) Apply(ctx *builder.Context, query *gorm.DB, value interface{}) *gorm.DB {
-	return query.Where("status = ?", value)
+	return query.Where("job_logs.status = ?", value)
 }
 
 // 属性
