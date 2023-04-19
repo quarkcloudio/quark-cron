@@ -19,11 +19,13 @@ func DBMigrate() {
 	db.Client.AutoMigrate(
 		&model.Scheduler{},
 		&model.Job{},
+		&model.JobLog{},
 	)
 
 	// 数据填充
 	(&model.Scheduler{}).Seeder()
 	(&model.Job{}).Seeder()
+	(&model.JobLog{}).Seeder()
 }
 
 func main() {
@@ -32,6 +34,7 @@ func main() {
 	providers := []interface{}{
 		&resource.Scheduler{},
 		&resource.Job{},
+		&resource.JobLog{},
 	}
 
 	// 数据库配置信息

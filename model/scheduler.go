@@ -58,6 +58,13 @@ func (m *Scheduler) Options() (options []*selectfield.Option) {
 	return options
 }
 
+// 获取调度器信息
+func (m *Scheduler) GetInfoById(id interface{}) (scheduler *Scheduler) {
+	db.Client.Where("id = ?", id).Find(&scheduler)
+
+	return
+}
+
 var schedulers []*Scheduler
 
 // 加载所有调度器

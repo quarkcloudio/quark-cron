@@ -16,6 +16,7 @@ require (
 
 require (
 	github.com/aliyun/aliyun-oss-go-sdk v2.2.7+incompatible // indirect
+	github.com/axgle/mahonia v0.0.0-20180208002826-3358181d7394
 	github.com/cespare/xxhash/v2 v2.2.0 // indirect
 	github.com/dchest/captcha v1.0.0 // indirect
 	github.com/derekstavis/go-qs v0.0.0-20180720192143-9eef69e6c4e7 // indirect

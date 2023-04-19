@@ -23,6 +23,9 @@ vendor/
 # 缓存文件
 tmp/
 
+# 生成的shell文件
+shell/
+
 # 文件存储目录
 website/storage
 

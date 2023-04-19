@@ -5,6 +5,7 @@ import (
 
 	"github.com/quarkcms/quark-cron/action"
 	"github.com/quarkcms/quark-cron/model"
+	"github.com/quarkcms/quark-cron/search"
 	"github.com/quarkcms/quark-go/pkg/app/handler/admin/actions"
 	"github.com/quarkcms/quark-go/pkg/app/handler/admin/searches"
 	"github.com/quarkcms/quark-go/pkg/builder"
@@ -377,9 +378,11 @@ func (p *Job) Fields(ctx *builder.Context) []interface{} {
 				}
 			}),
 
+		field.Datetime("created_at", "创建时间").OnlyOnIndex(),
+
 		field.Switch("status", "状态").
-			SetFalseValue("暂停").
-			SetTrueValue("正常").
+			SetFalseValue("已停止").
+			SetTrueValue("运行中").
 			SetEditable(true).
 			OnlyOnIndex(),
 	}
@@ -390,7 +393,7 @@ func (p *Job) Searches(ctx *builder.Context) []interface{} {
 
 	return []interface{}{
 		(&searches.Input{}).Init("name", "名称"),
-		(&searches.Status{}).Init(),
+		(&search.Status{}).Init(),
 	}
 }
 
@@ -399,8 +402,8 @@ func (p *Job) Actions(ctx *builder.Context) []interface{} {
 
 	return []interface{}{
 		(&actions.Delete{}).Init("批量删除"),
-		(&actions.Disable{}).Init("批量暂停"),
-		(&actions.Enable{}).Init("批量启用"),
+		(&actions.Disable{}).Init("批量停止"),
+		(&actions.Enable{}).Init("批量启动"),
 		(&action.CreateModal{}).Init(p.Title),
 		(&action.EditModal{}).Init("编辑"),
 		(&actions.Delete{}).Init("删除"),
