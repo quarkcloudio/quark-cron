@@ -8,6 +8,7 @@ import (
 	"github.com/quarkcms/quark-go/pkg/builder"
 	"github.com/quarkcms/quark-go/pkg/builder/template/adminresource"
 	"github.com/quarkcms/quark-go/pkg/component/admin/form/rule"
+	"gorm.io/gorm"
 )
 
 type Scheduler struct {
@@ -48,6 +49,7 @@ func (p *Scheduler) Fields(ctx *builder.Context) []interface{} {
 		field.Switch("status", "状态").
 			SetFalseValue("已停止").
 			SetTrueValue("运行中").
+			SetEditable(true).
 			OnlyOnIndex(),
 	}
 }
@@ -72,4 +74,24 @@ func (p *Scheduler) Actions(ctx *builder.Context) []interface{} {
 		(&actions.EditModal{}).Init("编辑"),
 		(&actions.Delete{}).Init("删除"),
 	}
+}
+
+// 执行行为后回调
+func (p *Scheduler) AfterAction(ctx *builder.Context, uriKey string, query *gorm.DB) interface{} {
+	if uriKey == "delete" {
+		// 重载服务
+		(&model.Scheduler{}).ReloadServices()
+	}
+
+	return nil
+}
+
+// 执行列表编辑完成后回调
+func (p *Scheduler) AfterEditable(ctx *builder.Context, id interface{}, field string, value interface{}) interface{} {
+	if field == "status" {
+		// 重载服务
+		(&model.Scheduler{}).ReloadServices()
+	}
+
+	return ctx.SimpleSuccess("操作成功")
 }

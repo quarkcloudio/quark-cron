@@ -421,3 +421,23 @@ func (p *Job) AfterSaved(ctx *builder.Context, id int, data map[string]interface
 
 	return ctx.SimpleSuccess("操作成功！", strings.Replace("/index?api="+adminresource.IndexRoute, ":resource", ctx.Param("resource"), -1))
 }
+
+// 执行行为后回调
+func (p *Job) AfterAction(ctx *builder.Context, uriKey string, query *gorm.DB) interface{} {
+	if uriKey == "delete" {
+		// 重载服务
+		(&model.Scheduler{}).ReloadServices()
+	}
+
+	return nil
+}
+
+// 执行列表编辑完成后回调
+func (p *Job) AfterEditable(ctx *builder.Context, id interface{}, field string, value interface{}) interface{} {
+	if field == "status" {
+		// 重载服务
+		(&model.Scheduler{}).ReloadServices()
+	}
+
+	return ctx.SimpleSuccess("操作成功")
+}
