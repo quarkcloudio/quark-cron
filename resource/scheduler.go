@@ -48,7 +48,6 @@ func (p *Scheduler) Fields(ctx *builder.Context) []interface{} {
 		field.Switch("status", "状态").
 			SetFalseValue("已停止").
 			SetTrueValue("运行中").
-			SetEditable(true).
 			OnlyOnIndex(),
 	}
 }

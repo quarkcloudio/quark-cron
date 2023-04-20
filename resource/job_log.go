@@ -1,6 +1,8 @@
 package resource
 
 import (
+	"html"
+
 	"github.com/quarkcms/quark-cron/model"
 	"github.com/quarkcms/quark-cron/search"
 	"github.com/quarkcms/quark-go/pkg/app/handler/admin/actions"
@@ -66,10 +68,16 @@ func (p *JobLog) Fields(ctx *builder.Context) []interface{} {
 		field.Datetime("created_at", "执行时间"),
 
 		field.Switch("status", "状态").
+			SetSpan(2).
 			SetFalseValue("失败").
 			SetTrueValue("成功"),
 
-		field.Text("result", "执行结果").OnlyOnDetail(),
+		field.Text("result", "执行结果", func() interface{} {
+
+			return "<pre>" + html.EscapeString(p.Field["result"].(string)) + "</pre>"
+		}).
+			SetSpan(2).
+			OnlyOnDetail(),
 	}
 }
 

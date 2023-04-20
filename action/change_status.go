@@ -1,6 +1,7 @@
 package action
 
 import (
+	"github.com/quarkcms/quark-cron/model"
 	"github.com/quarkcms/quark-go/pkg/builder"
 	"github.com/quarkcms/quark-go/pkg/builder/template/adminresource/actions"
 	"github.com/quarkcms/quark-go/pkg/msg"
@@ -67,6 +68,9 @@ func (p *ChangeStatus) Handle(ctx *builder.Context, query *gorm.DB) interface{} 
 	if err != nil {
 		return ctx.JSON(200, msg.Error(err.Error(), ""))
 	}
+
+	// 重载服务
+	(&model.Scheduler{}).ReloadServices()
 
 	return ctx.JSON(200, msg.Success("操作成功", "", ""))
 }

@@ -3,7 +3,7 @@ module github.com/quarkcms/quark-cron
 go 1.19
 
 require (
-	github.com/quarkcms/quark-go v1.2.18
+	github.com/quarkcms/quark-go v1.2.19
 	gorm.io/driver/sqlite v1.5.0
 	gorm.io/gorm v1.25.0
 )
