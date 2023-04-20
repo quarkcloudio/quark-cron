@@ -74,7 +74,7 @@ func (p *JobLog) Fields(ctx *builder.Context) []interface{} {
 
 		field.Text("result", "执行结果", func() interface{} {
 
-			return "<pre>" + html.EscapeString(p.Field["result"].(string)) + "</pre>"
+			return "<style>.ant-descriptions-item-content{display:block !important;}</style><pre style='max-height:600px;width:100%;overflow-y:scroll;padding:12px 20px;background-color:#f5f5f5;border-radius:6px;'>" + html.EscapeString(p.Field["result"].(string)) + "</pre>"
 		}).
 			SetSpan(2).
 			OnlyOnDetail(),
